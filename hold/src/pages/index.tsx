@@ -14,7 +14,7 @@ const HomePage: React.FC = () => {
       setTimer(parseInt(savedTimer, 10));
     }
 
-    const audio = new Audio('/static/holdmusic.mp3');
+    const audio = new Audio('https://tom.so/media/holdmusic.mp3');
     audio.loop = true;
     audio.play();
     audioRef.current = audio;
