@@ -29,36 +29,29 @@ const HomePage: React.FC = () => {
     localStorage.setItem('timer', timer.toString());
   }, [timer]);
 
-  const handleAudioToggle = () => {
-    if (isPlaying) {
-      audioRef.current?.pause();
-      setIsPlaying(false);
-    } else {
-      const handlePlay = () => {
-        const audio = new Audio('/hold/hold.mp3');
-        audio.loop = true;
-        audio.play().catch((error) => {
-          console.error('Failed to play audio:', error);
-        });
-        audioRef.current = audio;
-        setIsPlaying(true);
-      };
+  const [isPlaybackInitiated, setIsPlaybackInitiated] = useState(false);
 
-      document.body.addEventListener('click', handlePlay, { once: true });
-    }
-  };
+const handleAudioStart = () => {
+  const audio = new Audio('/hold/hold.mp3');
+  audio.loop = true;
+  audio.play().catch((error) => {
+    console.error('Failed to play audio:', error);
+  });
+  audioRef.current = audio;
+  setIsPlaybackInitiated(true);
+};
 
-  const handleAudioPause = () => {
+const handleAudioToggle = () => {
+  if (isPlaying) {
     audioRef.current?.pause();
     setIsPlaying(false);
-  };
-
-  const handleAudioPlay = () => {
+  } else {
     audioRef.current?.play().catch((error) => {
       console.error('Failed to play audio:', error);
     });
     setIsPlaying(true);
-  };
+  }
+};
 
   return (
       <><Head>
@@ -96,12 +89,14 @@ const HomePage: React.FC = () => {
           <p className="text-2xl">
             You have been waiting for: {`${Math.floor(timer / 3600)} hours, ${Math.floor((timer % 3600) / 60)} minutes, and ${timer % 60} seconds.`}
           </p>
-          <button
-            onClick={isPlaying ? handleAudioPause : handleAudioPlay}
-            className="underline text-black hover:text-gray-800 dark:text-white dark:hover:text-gray-300"
-          >
-            {isPlaying ? 'Click to pause music' : 'Click to play music'}
-          </button>
+          {!isPlaybackInitiated && (
+      <button onClick={handleAudioStart}>Trigger music</button>
+    )}
+    {isPlaybackInitiated && (
+      <button onClick={handleAudioToggle}>
+        {isPlaying ? 'Click to pause music' : 'Click to play music'}
+      </button>
+    )}
           </main>
       </div>
     </>
