@@ -66,7 +66,7 @@ const HomePage: React.FC = () => {
           className={`flex min-h-screen flex-col text-left justify-between p-24 ${inter.className}`}
         >
           <p className="text-2xl">
-            You have been waiting for: {`${Math.floor(timer / 3600)}:${Math.floor((timer % 3600) / 60)}:${timer % 60}`}
+            You have been waiting for: {`${Math.floor(timer / 3600)} hours, ${Math.floor((timer % 3600) / 60)} minutes, and ${timer % 60} seconds.`}
           </p>
 
           </main>
