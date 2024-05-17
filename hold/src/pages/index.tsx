@@ -38,7 +38,8 @@ const HomePage: React.FC = () => {
       <title>Hold</title>
       <meta property="og:title" content="Hold" key="title" />
       <meta property="twitter:title" content="Hold" />
-      <meta name="theme-color" content="#000000" />
+      <meta name="theme-color" content="#ffffff" />
+      <meta name="theme-color" content="#000000" media="(prefers-color-scheme: dark)"/>
       <meta property="description" content="As I await your response, my memory of you grows with time." />
       <meta property="og:description" content="As I await your response, my memory of you grows with time" />
       <meta property="twitter:description" content="As I await your response, my memory of you grows with time" />
@@ -61,7 +62,7 @@ const HomePage: React.FC = () => {
         sizes="16x16"
         href="/hold/favicon-16x16.png" />
       <link rel="manifest" href="/hold/site.webmanifest" />
-    </Head><div className="min-h-screen bg-black text-white relative">
+    </Head><div className="min-h-screen bg-white dark:bg-black dark:text-white text-black relative">
         <main
           className={`flex min-h-screen flex-col text-left justify-between p-24 ${inter.className}`}
         >
