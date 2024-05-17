@@ -31,15 +31,16 @@ const HomePage: React.FC = () => {
 
   const [isPlaybackInitiated, setIsPlaybackInitiated] = useState(false);
 
-const handleAudioStart = () => {
-  const audio = new Audio('/hold/hold.mp3');
-  audio.loop = true;
-  audio.play().catch((error) => {
-    console.error('Failed to play audio:', error);
-  });
-  audioRef.current = audio;
-  setIsPlaybackInitiated(true);
-};
+  const handleAudioStart = () => {
+    const audio = new Audio('/hold/hold.mp3');
+    audio.loop = true;
+    audio.play().catch((error) => {
+      console.error('Failed to play audio:', error);
+    });
+    audioRef.current = audio;
+    setIsPlaybackInitiated(true);
+    setIsPlaying(true); 
+  };
 
 const handleAudioToggle = () => {
   if (isPlaying) {
