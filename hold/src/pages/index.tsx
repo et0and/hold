@@ -7,17 +7,13 @@ const inter = Inter({ subsets: ["latin"], display: "swap" });
 const HomePage: React.FC = () => {
   const audioRef = useRef<HTMLAudioElement | null>(null);
   const [timer, setTimer] = useState<number>(0);
+  const [isPlaying, setIsPlaying] = useState<boolean>(false);
 
   useEffect(() => {
     const savedTimer = localStorage.getItem('timer');
     if (savedTimer) {
       setTimer(parseInt(savedTimer, 10));
     }
-
-    const audio = new Audio('https://tom.so/media/holdmusic.mp3');
-    audio.loop = true;
-    audio.play();
-    audioRef.current = audio;
 
     const interval = setInterval(() => {
       setTimer((prevTimer) => prevTimer + 1);
@@ -32,6 +28,37 @@ const HomePage: React.FC = () => {
   useEffect(() => {
     localStorage.setItem('timer', timer.toString());
   }, [timer]);
+
+  const handleAudioToggle = () => {
+    if (isPlaying) {
+      audioRef.current?.pause();
+      setIsPlaying(false);
+    } else {
+      const handlePlay = () => {
+        const audio = new Audio('/hold/hold.mp3');
+        audio.loop = true;
+        audio.play().catch((error) => {
+          console.error('Failed to play audio:', error);
+        });
+        audioRef.current = audio;
+        setIsPlaying(true);
+      };
+
+      document.body.addEventListener('click', handlePlay, { once: true });
+    }
+  };
+
+  const handleAudioPause = () => {
+    audioRef.current?.pause();
+    setIsPlaying(false);
+  };
+
+  const handleAudioPlay = () => {
+    audioRef.current?.play().catch((error) => {
+      console.error('Failed to play audio:', error);
+    });
+    setIsPlaying(true);
+  };
 
   return (
       <><Head>
@@ -69,7 +96,12 @@ const HomePage: React.FC = () => {
           <p className="text-2xl">
             You have been waiting for: {`${Math.floor(timer / 3600)} hours, ${Math.floor((timer % 3600) / 60)} minutes, and ${timer % 60} seconds.`}
           </p>
-
+          <button
+            onClick={isPlaying ? handleAudioPause : handleAudioPlay}
+            className="underline text-black hover:text-gray-800 dark:text-white dark:hover:text-gray-300"
+          >
+            {isPlaying ? 'Click to pause music' : 'Click to play music'}
+          </button>
           </main>
       </div>
     </>
